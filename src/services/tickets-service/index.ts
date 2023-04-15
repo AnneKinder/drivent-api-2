@@ -3,6 +3,8 @@ import ticketRepository from '@/repositories/ticket-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import { exclude } from '@/utils/prisma-utils';
 import { Enrollment, Ticket, TicketType } from '@prisma/client';
+import httpStatus from 'http-status';
+import { badRequestError } from '@/errors/bad-request.error';
 
 async function getEnrollmentIdByUserId(userId: number): Promise<number> {
   const enrollment = await enrollmentRepository.findEnrollmentByUserId(userId);
@@ -26,7 +28,7 @@ async function getTicketbyEnrollmentId(userId: number): Promise<Ticket &{
 
   const ticketType = await ticketRepository.findOneTicketType(ticket.ticketTypeId)
   if (!ticketType) {
-    throw notFoundError();
+    throw badRequestError('TicketTypeId not found.')
    }
 
    const obj = {
