@@ -1,3 +1,5 @@
+import { Ticket, TicketType } from "@prisma/client";
+
 export type ApplicationError = {
   name: string;
   message: string;
@@ -28,12 +30,8 @@ export type RequestError = {
   message: string;
 };
 
-// export type TicketType={
-//     id: number,
-//     name: string,
-//     price: number,
-//     isRemote: boolean,
-//     includesHotel: boolean,
-//     createdAt: Date,
-//     updatedAt: Date,
-// }
+export type NewTicket = Omit<Ticket, 'id' | 'createdAt' | 'updatedAt'> 
+
+export type TicketWithTicketType = Ticket &{
+  TicketType: TicketType
+}

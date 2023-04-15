@@ -24,3 +24,24 @@ export async function getTicketByUser(req: AuthenticatedRequest, res: Response, 
     next()
   }
 }
+
+
+export async function postTicket(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+
+  const { ticketTypeId } = req.body;
+  const { userId } = req;
+
+  if(!ticketTypeId){
+    return res.sendStatus(httpStatus.BAD_REQUEST)
+  }
+
+
+try {
+  const result = await ticketsService.createTicket(ticketTypeId, userId)
+  return res.status(httpStatus.CREATED).send(result);
+} catch (error) {
+  //return res.status(httpStatus.NOT_FOUND).send({});
+  next()
+}
+}
+
