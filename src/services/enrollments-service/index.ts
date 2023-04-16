@@ -54,21 +54,20 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   const enrollment = exclude(params, 'address');
   const address = getAddressForUpsert(params.address);
 
-  const cep = address.cep
-  const treatedCEP = cep.replace('-', '')
-
+  const cep = address.cep;
+  const treatedCEP = cep.replace('-', '');
 
   try {
     const result = await getAddressFromCEP(treatedCEP);
-    if(!result){
-      invalidDataError(['Invalid Body'])
-     }
+    if (!result) {
+      invalidDataError(['Invalid Body']);
+    }
   } catch {
     throw invalidDataError(['invalid CEP']);
   }
 
   const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
-console.log(newEnrollment)
+  console.log(newEnrollment);
   await addressRepository.upsert(newEnrollment.id, address, address);
 }
 

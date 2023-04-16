@@ -1,16 +1,14 @@
-import { Payment, Prisma,   } from '@prisma/client';
+import { Payment, Prisma } from '@prisma/client';
 import { prisma } from '@/config';
-
-
 
 async function findPaymentByTicketId(ticketId: number): Promise<Payment> {
   return prisma.payment.findFirst({
-    where:{ticketId}
+    where: { ticketId },
   });
 }
 
 const paymentRepository = {
-    findPaymentByTicketId
-}
+  findPaymentByTicketId,
+};
 
 export default paymentRepository;

@@ -79,6 +79,15 @@ async function createTicket(ticketTypeId: number, userId: number): Promise<Ticke
   return getTicketbyEnrollmentId(userId);
 }
 
+// async function getEnrollmentByTicketId(ticketId: number): Promise<Enrollment> {
+//   const enrollment = await enrollmentRepository.findEnrollmentByTicketId(ticketId);
+
+//   if (!enrollment) {
+//     throw notFoundError();
+//   }
+//   return enrollment
+// }
+
 const ticketsService = {
   getAllTickets,
   getEnrollmentIdByUserId,

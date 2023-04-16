@@ -16,18 +16,16 @@ export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Respon
 }
 
 export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, res: Response) {
-
   try {
     await enrollmentsService.createOrUpdateEnrollmentWithAddress({
       ...req.body,
       userId: req.userId,
     });
 
-    
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
     // return res.sendStatus(httpStatus.BAD_REQUEST);
-    return res.send("xabu no enrollment body")
+    return res.send('xabu no enrollment body');
   }
 }
 

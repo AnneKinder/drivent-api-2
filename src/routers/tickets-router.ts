@@ -4,11 +4,6 @@ import { authenticateToken } from '@/middlewares';
 
 const ticketsRouter = Router();
 
-ticketsRouter
-    .all('/*', authenticateToken)
-    .get('/types', getAllTickets)
-    .get('/', getTicketByUser)
-    .post('/', postTicket);
-
+ticketsRouter.all('/*', authenticateToken).get('/types', getAllTickets).get('/', getTicketByUser).post('/', postTicket);
 
 export { ticketsRouter };
