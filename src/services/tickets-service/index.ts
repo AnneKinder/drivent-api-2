@@ -1,9 +1,9 @@
+import { Enrollment, Ticket, TicketType } from '@prisma/client';
+import httpStatus from 'http-status';
 import { notFoundError } from '@/errors';
 import ticketRepository from '@/repositories/ticket-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import { exclude } from '@/utils/prisma-utils';
-import { Enrollment, Ticket, TicketType } from '@prisma/client';
-import httpStatus from 'http-status';
 import { badRequestError } from '@/errors/bad-request.error';
 import { NewTicket, TicketWithTicketType } from '@/protocols';
 
@@ -17,17 +17,16 @@ async function getEnrollmentIdByUserId(userId: number): Promise<number> {
 }
 
 async function getTicketbyEnrollmentId(userId: number): Promise<TicketWithTicketType> {
-
-  const enrollmentId = await getEnrollmentIdByUserId(userId)
+  const enrollmentId = await getEnrollmentIdByUserId(userId);
 
   const ticket = await ticketRepository.findTicketbyEnrollmentId(enrollmentId);
   if (!ticket) {
     throw notFoundError();
   }
 
-  const ticketType = await ticketRepository.findOneTicketType(ticket.ticketTypeId)
+  const ticketType = await ticketRepository.findOneTicketType(ticket.ticketTypeId);
   if (!ticketType) {
-    throw badRequestError('TicketTypeId not found.')
+    throw badRequestError('TicketTypeId not found.');
   }
 
   const obj: TicketWithTicketType = {
@@ -46,48 +45,45 @@ async function getTicketbyEnrollmentId(userId: number): Promise<TicketWithTicket
     },
     createdAt: ticket.createdAt,
     updatedAt: ticket.updatedAt,
-  }
+  };
 
-  return obj
+  return obj;
 }
 
 async function getAllTickets(): Promise<TicketType[]> {
   const allTickets = await ticketRepository.findAllTicketsType();
   if (!allTickets) throw notFoundError();
 
-  return allTickets
+  return allTickets;
 }
 
-async function createTicket(ticketTypeId: number, userId: number): Promise<any> {
-
-  if(!ticketTypeId){
-    throw badRequestError('TicketTypeId not found.')
+async function createTicket(ticketTypeId: number, userId: number): Promise<TicketWithTicketType> {
+  if (!ticketTypeId) {
+    throw badRequestError('TicketTypeId not found.');
   }
 
-  const enrollment = await enrollmentRepository.findEnrollmentByUserId(userId)
+  const enrollment = await enrollmentRepository.findEnrollmentByUserId(userId);
   if (!enrollment) {
-    throw notFoundError()
+    throw notFoundError();
   }
 
-  const createdTicket = await ticketRepository.create({ticketTypeId, enrollmentId:enrollment.id, status: "RESERVED"})
-  if(!createdTicket){
-    throw badRequestError('Ticket not created. Bad Request.')
+  const createdTicket = await ticketRepository.create({
+    ticketTypeId,
+    enrollmentId: enrollment.id,
+    status: 'RESERVED',
+  });
+  if (!createdTicket) {
+    throw badRequestError('Ticket not created. Bad Request.');
   }
 
-  return getTicketbyEnrollmentId(userId)
-
+  return getTicketbyEnrollmentId(userId);
 }
-
-
-
-
-
 
 const ticketsService = {
   getAllTickets,
   getEnrollmentIdByUserId,
   getTicketbyEnrollmentId,
-  createTicket
+  createTicket,
 };
 
 export default ticketsService;

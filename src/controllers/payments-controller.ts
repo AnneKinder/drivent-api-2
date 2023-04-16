@@ -4,13 +4,16 @@ import { AuthenticatedRequest } from '@/middlewares';
 import paymentService from '@/services/payments-service';
 
 export async function getPaymentByTicketId(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { ticketId } = req.query as Record<string, string>;
 
-    const ticketId = parseInt(req.params.ticketId)
+  if (!ticketId) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
 
   try {
-    const payment = await paymentService.getPaymentByTicketId(ticketId)
+    const payment = await paymentService.getPaymentByTicketId(Number(ticketId));
     return res.status(httpStatus.OK).send(payment);
-  } catch (error) {
-    return res.status(httpStatus.NOT_FOUND).send({});
+  } catch (err) {
+    next(err);
   }
 }

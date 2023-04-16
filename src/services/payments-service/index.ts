@@ -1,18 +1,18 @@
-import { badRequestError } from "@/errors/bad-request.error";
-import paymentRepository from "@/repositories/payment-repository";
+import { notFoundError } from '@/errors';
+import paymentRepository from '@/repositories/payment-repository';
 
-async function getPaymentByTicketId(ticketId:number){
-    const payment = await paymentRepository.findPaymentByTicketId(ticketId)
+async function getPaymentByTicketId(ticketId: number) {
+  const payment = await paymentRepository.findPaymentByTicketId(ticketId);
 
-    if(!payment){
-        throw badRequestError("Payment not found.")
-    }
+  if (!payment) {
+    throw notFoundError();
+  }
 
-    return payment
+  return payment;
 }
 
-const paymentService ={
-    getPaymentByTicketId
-}
+const paymentService = {
+  getPaymentByTicketId,
+};
 
-export default paymentService
+export default paymentService;
