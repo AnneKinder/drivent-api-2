@@ -35,3 +35,11 @@ export type NewTicket = Omit<Ticket, 'id' | 'createdAt' | 'updatedAt'>;
 export type TicketWithTicketType = Ticket & {
   TicketType: TicketType;
 };
+
+export type CardData = {
+  issuer: string;
+  number: number;
+  name: string;
+  expirationDate: Date;
+  cvv: number;
+};
