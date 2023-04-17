@@ -19,7 +19,6 @@ export async function getTicketByUser(req: AuthenticatedRequest, res: Response, 
     const ticket = await ticketsService.getTicketbyEnrollmentId(userId);
     return res.status(httpStatus.OK).send(ticket);
   } catch (error) {
-    //return res.status(httpStatus.NOT_FOUND).send({});
     next();
   }
 }
@@ -36,7 +35,6 @@ export async function postTicket(req: AuthenticatedRequest, res: Response, next:
     const result = await ticketsService.createTicket(ticketTypeId, userId);
     return res.status(httpStatus.CREATED).send(result);
   } catch (error) {
-    //return res.status(httpStatus.NOT_FOUND).send({});
     next();
   }
 }

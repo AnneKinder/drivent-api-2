@@ -1,4 +1,4 @@
-import { Payment, Prisma } from '@prisma/client';
+import { Payment } from '@prisma/client';
 import { prisma } from '@/config';
 import { NewPayment } from '@/protocols';
 

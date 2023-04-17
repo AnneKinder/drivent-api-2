@@ -1,4 +1,4 @@
-import { Enrollment, Prisma, Ticket, TicketType } from '@prisma/client';
+import { Ticket, TicketType } from '@prisma/client';
 import { prisma } from '@/config';
 import { NewTicket } from '@/protocols';
 
@@ -24,7 +24,7 @@ async function findTicketbyId(ticketId: number): Promise<Ticket> {
   });
 }
 
-async function create({ ticketTypeId, enrollmentId, status }: NewTicket): Promise<any> {
+async function create({ ticketTypeId, enrollmentId, status }: NewTicket): Promise<Ticket> {
   return prisma.ticket.create({
     data: {
       ticketTypeId,
@@ -34,7 +34,7 @@ async function create({ ticketTypeId, enrollmentId, status }: NewTicket): Promis
   });
 }
 
-async function updateStatus(ticketId: number): Promise<any> {
+async function updateStatus(ticketId: number): Promise<Ticket> {
   return prisma.ticket.update({
     where: { id: ticketId },
     data: {
