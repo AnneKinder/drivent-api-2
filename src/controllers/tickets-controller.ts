@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import ticketsService from '@/services/tickets-service';
 import { AuthenticatedRequest } from '@/middlewares';
