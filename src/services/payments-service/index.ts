@@ -26,7 +26,7 @@ async function getPaymentByTicketId(ticketId: number, userId: number) {
   return payment;
 }
 
-async function getPrice(ticketId: number) {
+async function getPrice(ticketId: number): Promise<number> {
   const ticket = await ticketRepository.findTicketbyId(ticketId);
 
   const ticketType = await ticketRepository.findOneTicketType(ticket.ticketTypeId);
@@ -47,7 +47,7 @@ async function processPaymentByTicketId(ticketId: number, cardData: CardData, us
     throw unauthorizedError();
   }
 
-  const value = Number(getPrice(ticketId));
+  const value = await getPrice(ticketId);
   const cardIssuer = cardData.issuer;
   const cardLastDigits = cardData.number.toString().slice(-4);
 
